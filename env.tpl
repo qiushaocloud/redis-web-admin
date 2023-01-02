@@ -5,6 +5,8 @@ RM_AUTH_PASSWORD = password #管理员密码
 
 ### docker-compose 用到的变量
 EXTERNAL_SVC_PORT = 9898 #对外提供服务端口
+EXTERNAL_MYSQL_PORT = 9897 #对外 mysql 端口
+EXTERNAL_TEST_REDIS_PORT = 9896 #对外 test redis 端口
 
 ### volumes dir
 RWA_DATA_DIR = /srv/docker-volumes/redis-web-admin/data #数据存储目录映射
