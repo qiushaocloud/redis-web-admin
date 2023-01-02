@@ -2,10 +2,10 @@ FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ "Asia/Shanghai"
-ENV SERVER_PORT 80
+ENV SERVER_PORT 9898
 ENV DATASOURCE_ADDR localhost:3306
 ENV DATASOURCE_USERNAME root
-ENV DATASOURCE_PASSWORD password
+ENV DATASOURCE_PASSWORD rootmysqlpassword
 
 RUN apt update
 RUN apt install -y apt-utils
@@ -29,16 +29,16 @@ RUN mv /var/lib/mysql /var/lib/mysql.bak
 
 RUN sed -i "s/^bind 127.0.0.1/#bind 127.0.0.1/" /etc/redis/redis.conf \
     && sed -i "s/^protected-mode yes/protected-mode no/" /etc/redis/redis.conf \
+    && sed -i "s/^# requirepass foobared/requirepass redispassword/" /etc/redis/redis.conf \
     && sed -i "s/bind-address/bind-address = 0.0.0.0 #/" /etc/mysql/mysql.conf.d/mysqld.cnf
 
 # RUN cd /app/redis-admin \
 #     && mvn clean package
 
-WORKDIR /app
-
-EXPOSE 9898
-
 ### 可以映射的目录
 #VOLUME ["/data"]
+
+EXPOSE 9898
+WORKDIR /app
 
 CMD ["/app/bootstrap.sh"]

@@ -8,6 +8,10 @@ cd /app/redis-admin/src/main/resources
 echo "finsh init application dev yml"
 
 echo "start redis service"
+if [ ! -f $TEST_REDIS_PASSWORD ]; then
+    echo "need set test redis password"
+    sed -i "s/^requirepass /requirepass $TEST_REDIS_PASSWORD/g" /etc/redis/redis.conf
+fi
 # service redis-server start
 /usr/bin/redis-server /etc/redis/redis.conf &
 echo "finsh redis service"
