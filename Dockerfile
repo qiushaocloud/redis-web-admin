@@ -17,6 +17,9 @@ RUN sudo apt install -y redis-server
 RUN sudo apt install -y mysql-server --fix-missing --fix-broken
 
 COPY ./redis-admin /app/redis-admin
+RUN cd /app/redis-admin \
+    && mvn clean package
+
 COPY ./bootstrap.sh /app/bootstrap.sh
 COPY ./mysql /app/mysql
 
@@ -33,9 +36,6 @@ RUN sed -i "s/^bind 127.0.0.1/#bind 127.0.0.1/" /etc/redis/redis.conf \
     && sed -i "s/^protected-mode yes/protected-mode no/" /etc/redis/redis.conf \
     && sed -i "s/^# requirepass foobared/requirepass redispassword/" /etc/redis/redis.conf \
     && sed -i "s/bind-address/bind-address = 0.0.0.0 #/" /etc/mysql/mysql.conf.d/mysqld.cnf
-
-# RUN cd /app/redis-admin \
-#     && mvn clean package
 
 ### 可以映射的目录
 #VOLUME ["/data"]
