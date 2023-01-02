@@ -31,7 +31,7 @@ if [ $IS_EXIST_DB == 0 ];then
   mysql < create_db.sql
 
   echo "run /app/redis-admin/sql/db.sql"
-  mysql < /app/redis-admin/sql/db.sql
+  #mysql < /app/redis-admin/sql/db.sql
 fi
 
 echo "run change root pwd sql"
