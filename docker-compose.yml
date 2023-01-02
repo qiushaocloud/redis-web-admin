@@ -5,6 +5,6 @@ services:
       container_name: qiushao-redis-web-admin
       hostname: qiushao-redis-web-admin
       ports:
-        - $EXTERNAL_SVC_PORT:9797
+        - $EXTERNAL_SVC_PORT:9898
       volumes:
         - $RWA_DATA_DIR:/tmp
