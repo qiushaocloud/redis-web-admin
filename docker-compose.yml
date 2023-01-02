@@ -13,3 +13,4 @@ services:
         - $MYSQL_DIR/var_lib_mysql:/var/lib/mysql
         - $MYSQL_DIR/var_run_mysqld:/var/run/mysqld
         - $TEST_REDIS_DIR/var_lib_redis:/var/lib/redis
+      env_file: .env
