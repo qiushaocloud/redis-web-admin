@@ -9,10 +9,10 @@ ENV DATASOURCE_USERNAME root
 ENV DATASOURCE_PASSWORD rootmysqlpassword
 
 RUN apt update
-RUN apt install -y sudo 
+# RUN apt install -y sudo 
 RUN sudo apt install -y apt-utils
 RUN sudo apt install -y procps lsof net-tools lsb-release curl wget lrzsz iputils-ping
-RUN sudo apt install -y vim
+# RUN sudo apt install -y vim
 # RUN sudo apt install -y openjdk-8-jdk maven
 RUN sudo apt install -y maven
 RUN sudo apt install -y redis-server
