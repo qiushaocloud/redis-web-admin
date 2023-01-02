@@ -1,0 +1,10 @@
+version:  '3'
+services:
+  qiushao-redis-web-admin:
+      image: qiushaocloud/redis-web-admin
+      container_name: qiushao-redis-web-admin
+      hostname: qiushao-redis-web-admin
+      ports:
+        - $EXTERNAL_SVC_PORT:9797
+      volumes:
+        - $RWA_DATA_DIR:/tmp
