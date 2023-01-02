@@ -8,8 +8,8 @@ ENV DATASOURCE_ADDR localhost:3306
 ENV DATASOURCE_USERNAME root
 ENV DATASOURCE_PASSWORD rootmysqlpassword
 
-RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
-COPY ./others/sources.list /etc/apt/sources.list
+# RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
+# COPY ./others/sources.list /etc/apt/sources.list
 
 RUN apt update
 # RUN apt install -y sudo 
