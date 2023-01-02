@@ -1,4 +1,5 @@
-FROM ubuntu:20.04
+#FROM ubuntu:20.04
+FROM majiajue/jdk1.8
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ "Asia/Shanghai"
@@ -12,7 +13,8 @@ RUN apt install -y sudo
 RUN sudo apt install -y apt-utils
 RUN sudo apt install -y procps lsof net-tools lsb-release curl wget lrzsz iputils-ping
 RUN sudo apt install -y vim
-RUN sudo apt install -y openjdk-8-jdk maven
+# RUN sudo apt install -y openjdk-8-jdk maven
+RUN sudo apt install -y maven
 RUN sudo apt install -y redis-server
 RUN sudo apt install -y mysql-server --fix-missing --fix-broken
 
