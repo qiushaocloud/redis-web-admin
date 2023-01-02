@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ "Asia/Shanghai"
 ENV SERVER_PORT 80
-ENV DATASOURCE_URL jdbc:mysql://localhost:3306/x-redis-admin?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+ENV DATASOURCE_URL jdbc:mysql:\/\/localhost:3306\/x-redis-admin?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
 ENV DATASOURCE_USERNAME root
 ENV DATASOURCE_PASSWORD password
 

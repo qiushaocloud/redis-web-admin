@@ -1,7 +1,7 @@
 # redis-web-admin
 
 ### 介绍
-轻量级Redis缓存图形化管理工具，基于 xianxin98/redis-admin(https://gitee.com/xianxin98/redis-admin) 二次封装
+一个简单好用的redis缓存图形化管理工具，包含redis的5种数据类型的CRUD操作; 由于该系统是在大名鼎鼎的JeeSite基础之上开发的，所有保留了原系统的用户/角色/权限/菜单等模块，基于 XueBuSi/redis-admin(https://gitee.com/XueBuSi/redis-admin) 二次封装
 
 ### docker-compose 运行
 
@@ -11,98 +11,69 @@
 4.  查看日志: docker logs qiushao-redis-web-manager
 
 
-### 软件架构 【原作者】
+### 软件涉及技术 【原作者】
 
-**后端**
-
-1. springboot 2.2.2.RELEASE ![:leaves:](https://cn-assets.gitee.com/assets/emoji/leaves-b940b10a257c9dd00c6bb025d81f3faf.png)
-2. JDK 1.8
-3. jedis 3.2.0
-4. commons-lang3 3.5
-5. hutool-core 5.1.1 友情链接：[Java工具集-糊涂官网](https://gitee.com/link?target=https%3A%2F%2Fwww.hutool.cn%2F)
-6. fastjson 1.2.62
-7. h2database 1.4.200
-
-**前端**
-
-1. vue-admin 1.0.5 参考作者`taylorchen709`的案例，项目地址：[vue-admin](https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2Ftaylorchen709%2Fvue-admin)
-2. axios 0.15.3
-3. element-ui 2.13.0 [观望饿了吗](https://gitee.com/link?target=https%3A%2F%2Felement.eleme.cn%2F) ![:sunglasses:](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/sunglasses-f58258a6aad83867089c5d93e550f767_h2mOAq.png)
-4. font-awesome 4.7.0
-5. nprogress 0.2.0
-6. vue 2.2.2 [观望VUE](https://gitee.com/link?target=https%3A%2F%2Fcn.vuejs.org%2Fv2%2Fapi%2F) ![:leaves:](https://cn-assets.gitee.com/assets/emoji/leaves-b940b10a257c9dd00c6bb025d81f3faf.png)
-7. vue-router 2.3.0
-8. vuex 2.0.0-rc.6
+1. SpringBoot
+2. SpringMVC
+3. Mybatis
+4. JSP
+5. JQuery
+6. Ehcache
+7. MySQL
+8. Redis
 
 ### 安装教程【原作者】
 
-1. 安装JDK1.8以上(Java同学已安装的请忽略) 友情推荐：[安装JDK教程](https://gitee.com/link?target=https%3A%2F%2Fjingyan.baidu.com%2Farticle%2Fc74d60003588974f6a595db6.html)
-2. 打开`./bin/`目录 执行启动服务脚本 `startup.bat` 或 `startup.sh`
-3. 打开`./bin/`目录 执行停止服务脚本 `shutdown.bat` 或 `shutdown.sh`
-4. 项目启动成功后，在浏览器中输入：[http://localhost:9898/dist/index.html#/login](https://gitee.com/link?target=http%3A%2F%2Flocalhost%3A8081%2Fdist%2Findex.html%23%2Flogin)
-5. 系统默认用户名: admin 密码: admin
-6. 已发布到 [https://hub.docker.com](https://gitee.com/link?target=https%3A%2F%2Fhub.docker.com) 搜索 `aoyanfei/redis-admin` 【推荐使用docker】
+1. 创建名为x-redis-admin数据库
+2. 在创建好的数据库中执行 sql/db.sql 脚本文件来初始化基础数据
+3. 修改application-dev.yml中的数据库名称、用户名和密码, 以及修改redis配置
+4. 运行App.java中的main方法启动系统
+5. 默认浏览器访问地址 [http://localhost:18080](https://gitee.com/link?target=http%3A%2F%2Flocalhost%3A18080)
+6. 默认系统登陆账号 admin 密码 admin
 
-### 下载镜像【原作者】
+### 打包运行【原作者】
 
-```
-docker pull aoyanfei/redis-admin
-```
+1. 打包:执行命令 mvn clean package 对项目进行打包，打好的war包生成在项目的target目录下.
+2. 生产中运行:打好war包之后，在linux下请执行该命令来启动项目: java -jar redis-admin-1.0.0-SNAPSHOT.war
 
-### 调整内容【原作者】
+### 有图有真相【原作者】
 
-- 用户管理支持多用户、用户的增删改
-- redis配置存储到h2数据库
-- 前端页面增加了简单的权限控制
-- 支持同一ip的不同端口
+![img](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/18-55/1-1541241037174_XjMEoM.png)
 
-### 后期计划【原作者】
+![img](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/18-55/2-1541559258468_Lzf1mB.png)
 
-- 考虑增加查询命中率、集群、哨兵模式等，有兴趣的同学可以加入组织探讨
+![img](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/18-55/3-1541241493839_FowgTw.png)
 
-### 使用说明【原作者】
+![img](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/18-55/4-1541241149816_PnBKDZ.png)
 
-![登录](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210212_b2ecf9f2_1571481_WJurme.png)
+![img](https://gitee.com/xuebusi/redis-admin/raw/master/screenshot/4-1541241225580.png)
 
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210229_57df8d0d_1571481_H4molY.png)
+![img](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/18-55/5-1541241277696_cOx6bo.png)
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0129/210246_fb05c272_1571481.png)
+![img](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/18-55/6-1541241312722_b6Ysll.png)
 
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210259_f3e147f7_1571481_deI4Et.png)
+![img](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/18-55/7-1541241360744_NRPzPL.png)
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0129/210347_d1bf5223_1571481.png)
+![img](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/18-55/8-1541241385881_dc1kTG.png)
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0129/210403_5defd7c0_1571481.png)
+![img](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/18-55/9-1541241421674_hmwfGp.png)
 
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210413_5c3710a8_1571481_YvG6qv.png)
+![img](https://gitee.com/xuebusi/redis-admin/raw/master/screenshot/10-1541241456056.png)
 
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210447_c9219ea0_1571481_5FgFvj.png)
+![img](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/18-55/11-1542275834144_WtQEtB.png)
 
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210523_655bdf3f_1571481_Wh6Cjo.png)
+![img](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/18-55/12-1542275862427_HUDc6e.png)
 
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210534_ec91c006_1571481_dbmt5Q.png)
+### 项目计划【原作者】
 
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210628_50749f0f_1571481_4OuuIq.png)
+1. 实现redis主机和端口的图形化配置功能
+2. 实现集合中元素的修改操作
+3. 实现Reids集群配置管理功能
+4. 实现Redis集群监控
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0129/210638_66d4a23c_1571481.png)
+### 参与原作者贡献
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0129/210647_ed664a59_1571481.png)
-
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210657_252ab391_1571481_mKjGL7.png)
-
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210707_3bd613a8_1571481_7mlll4.png)
-
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210716_01dd56cd_1571481_YKDdEa.png)
-
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0129/210725_4617115e_1571481.png)
-
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210735_04c28274_1571481_0Sam4u.png)
-
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210748_5e7cb0cc_1571481_HJPv90.png)
-
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210759_b34f098f_1571481_cqPzpa.png)
-
-![输入图片说明](https://githubcdn.qiushaocloud.top/gh/qiushaocloud-cdn/cdn_static@master/uPic/2023-01-02/15-24/210101_51e16f47_1571481_TqEFQz.png)
+欢迎优秀的开发人员参与该项目, 贡献自己的代码, 一起做一个最好的Redis客户端工具! 联系QQ 490983587
 
 
 ### 参与贡献
@@ -123,7 +94,7 @@ docker pull aoyanfei/redis-admin
 
 
 ### 版权信息公告:
-* 此项目是基于 [xianxin98/redis-admin](https://gitee.com/xianxin98/redis-admin) 二次修改
+* 此项目是基于 [XueBuSi/redis-admin](https://gitee.com/XueBuSi/redis-admin) 二次修改
 * 以上内容大部分为原作者原创内容
 * 如果大家喜欢，请支持 [邱少羽梦(修改者)](https://www.qiushaocloud.top)，也请支持下原作者哦
 * 版权归原作者所有，修改者只是进行部分修改，以满足修改者需求
