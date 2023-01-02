@@ -22,13 +22,14 @@ RUN chmod 777 /app/bootstrap.sh \
     && chmod 777 /app/mysql/*.sh \
     && chmod 777 /app/redis-admin/src/main/resources/*.sh \
     && rm -rf /app/redis-admin/src/main/resources/application-dev.yml \
-    && rm -rf /app/mysql/change_root_pwd.sql
+    && rm -rf /app/mysql/change_root_pwd.sql \
+    && echo "set encoding=utf-8" >> /root/.vimrc
     
 RUN mv /var/lib/mysql /var/lib/mysql.bak
 
 RUN sed -i "s/^bind 127.0.0.1/bind 0.0.0.0 #/" /etc/redis/redis.conf \
     && sed -i "s/bind-address/bind-address = 0.0.0.0 #/" /etc/mysql/mysql.conf.d/mysqld.cnf
-    
+
 # RUN cd /app/redis-admin \
 #     && mvn clean package
 
