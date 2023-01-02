@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ "Asia/Shanghai"
 ENV SERVER_PORT 80
-ENV DATASOURCE_URL jdbc:mysql:\/\/localhost:3306\/x-redis-admin?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+ENV DATASOURCE_ADDR localhost:3306
 ENV DATASOURCE_USERNAME root
 ENV DATASOURCE_PASSWORD password
 
@@ -18,6 +18,14 @@ RUN apt install -y iputils-ping
 COPY ./redis-admin /app/redis-admin
 COPY ./bootstrap.sh /app/bootstrap.sh
 COPY ./mysql /app/mysql
+
+RUN chmod 777 /app/bootstrap.sh \
+    && chmod 777 /app/mysql/*.sh \
+    && chmod 777 /app/redis-admin/src/main/resources/*.sh \
+    && rm -rf /app/redis-admin/src/main/resources/application-dev.yml \
+    && rm -rf /app/mysql/change_root_pwd.sql
+    
+RUN mv /var/lib/mysql /var/lib/mysql.bak
 
 # RUN cd /app/redis-admin \
 #     && mvn clean package

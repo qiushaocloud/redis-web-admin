@@ -21,7 +21,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: <DATASOURCE_URL>
+    url: jdbc:mysql://<DATASOURCE_ADDR>/x-redis-admin?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: <DATASOURCE_USERNAME>
     password: <DATASOURCE_PASSWORD>
     initial-size: 10
