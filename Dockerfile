@@ -1,8 +1,8 @@
 #FROM ubuntu:20.04
 FROM majiajue/jdk1.8
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV TZ "Asia/Shanghai"
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Shanghai
 ENV SERVER_PORT 9898
 ENV DATASOURCE_ADDR localhost:3306
 ENV DATASOURCE_USERNAME root
