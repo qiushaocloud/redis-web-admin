@@ -42,4 +42,5 @@ service mysql stop
 sleep 5
 
 echo "start mysql service"
+usermod -d /var/lib/mysql/ mysql
 service mysql start
