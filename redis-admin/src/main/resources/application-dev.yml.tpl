@@ -1,5 +1,5 @@
 server:
-  port: 18080
+  port: <SERVER_PORT>
   tomcat:
     uri-encoding: UTF-8
     max-threads: 1000
@@ -21,9 +21,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/x-redis-admin?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: root
-    password: 123456
+    url: <DATASOURCE_URL>
+    username: <DATASOURCE_USERNAME>
+    password: <DATASOURCE_PASSWORD>
     initial-size: 10
     max-active: 100
     min-idle: 10

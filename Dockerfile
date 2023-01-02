@@ -2,7 +2,8 @@ FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ "Asia/Shanghai"
-ENV DATASOURCE_URL jdbc:mysql://localhost:3306/x-redis-admin?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+ENV SERVER_PORT 80
+ENV DATASOURCE_URL jdbc:mysql://localhost:3306/x-redis-admin?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
 ENV DATASOURCE_USERNAME root
 ENV DATASOURCE_PASSWORD password
 
@@ -26,6 +27,6 @@ WORKDIR /app/redis-admin
 EXPOSE 9898
 
 ### 可以映射的目录
-#VOLUME ["/tmp"]
+#VOLUME ["/data"]
 
 CMD ["/app/bootstrap.sh"]

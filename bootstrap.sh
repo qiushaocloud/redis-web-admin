@@ -2,10 +2,10 @@
 
 echo "start service"
 
-# echo "start init application yml"
-# cd /app/redis-manager/conf
-# ./init_application_yml.sh
-# echo "finsh init application yml"
+echo "start init application dev yml"
+cd /app/redis-admin/src/main/resources
+./init_application_dev_yml.sh
+echo "finsh init application dev yml"
 
 echo "start mysql service"
 cd /app/mysql
