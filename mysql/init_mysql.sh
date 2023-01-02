@@ -25,7 +25,7 @@ echo "start mysqld --skip-grant-tables"
 mysqld --skip-grant-tables &
 sleep 10
 
-IS_EXIST_DB=`mysql < check_is_exist_db.sql | grep redis_manager | grep -v grep | wc -l`
+IS_EXIST_DB=`mysql < check_is_exist_db.sql | grep x-redis-admin | grep -v grep | wc -l`
 echo "IS_EXIST_DB:$IS_EXIST_DB"
 if [ $IS_EXIST_DB == 0 ];then
   echo "no exist db, run create db sql"
