@@ -2,3 +2,5 @@
 .DS_Store
 .env
 .env.swp
+redis-admin.log
+redis-admin.log.swp
