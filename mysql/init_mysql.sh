@@ -10,6 +10,7 @@ fi
 echo 'rm -rf /var/lib/mysql.bak'
 rm -rf /var/lib/mysql.bak
 chown -R mysql:mysql /var/lib/mysql
+chown -R mysql:mysql /var/run/mysqld
 
 echo "start change root password"
 echo "DATASOURCE_PASSWORD:$DATASOURCE_PASSWORD"
@@ -39,6 +40,6 @@ mysql < change_root_pwd.sql
 echo "stop mysql service"
 service mysql stop
 sleep 5
+
 echo "start mysql service"
-usermod -d /var/lib/mysql/ mysql
 service mysql start
