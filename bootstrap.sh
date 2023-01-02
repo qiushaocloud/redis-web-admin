@@ -8,7 +8,8 @@ cd /app/redis-admin/src/main/resources
 echo "finsh init application dev yml"
 
 echo "start redis service"
-service redis-server start
+# service redis-server start
+/usr/bin/redis-server /etc/redis/redis.conf &
 echo "finsh redis service"
 
 echo "start mysql service"
