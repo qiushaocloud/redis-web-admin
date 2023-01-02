@@ -9,11 +9,10 @@ ENV DATASOURCE_PASSWORD password
 
 RUN apt update
 RUN apt install -y apt-utils
-RUN apt install -y procps lsof vim net-tools lsb-release curl wget lrzsz
+RUN apt install -y procps lsof vim net-tools lsb-release curl wget lrzsz iputils-ping
 RUN apt install -y openjdk-8-jdk-headless maven
 RUN apt install -y redis-server
 RUN apt install -y mysql-server --fix-missing --fix-broken
-RUN apt install -y iputils-ping
 
 COPY ./redis-admin /app/redis-admin
 COPY ./bootstrap.sh /app/bootstrap.sh
