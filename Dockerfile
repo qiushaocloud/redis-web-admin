@@ -8,19 +8,18 @@ ENV DATASOURCE_ADDR localhost:3306
 ENV DATASOURCE_USERNAME root
 ENV DATASOURCE_PASSWORD rootmysqlpassword
 
-# RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
-# COPY ./others/sources.list /etc/apt/sources.list
+USER root
 
 RUN apt update
-# RUN apt install -y sudo 
 RUN apt install -y apt-utils
 RUN apt install -y procps lsof net-tools lsb-release curl wget lrzsz iputils-ping
-# RUN apt install -y vim
-# RUN apt install -y openjdk-8-jdk maven
 RUN apt install -y maven
 RUN apt install -y redis-server
-RUN apt install -y mysql-server --fix-missing --fix-broken
-
+RUN apt-get -qq install --no-install-recommends  vim > /dev/null
+RUN apt-get -qq install -y mysql-server --fix-missing --fix-broken > /dev/null
+RUN mkdir -p /var/run/mysqld \
+    && chown mysql /var/run/mysqld/
+    
 COPY ./redis-admin /app/redis-admin
 RUN cd /app/redis-admin \
     && mvn clean package
