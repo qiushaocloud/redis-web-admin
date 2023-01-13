@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="layui-form" action="" method="post">
+  <div class="layui-form-item">
+    <label class="layui-form-label">key</label>
+    <div class="layui-input-block">
+      <input type="text" name="key" required  lay-verify="required" placeholder="" readonly="readonly" value="{{ data.key }}" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">type</label>
+    <div class="layui-input-inline">
+      <input type="text" name="type" required lay-verify="required" placeholder="" readonly="readonly" value="{{ data.type }}" autocomplete="off" class="layui-input">
+	    {% csrf_token %}
+	    <input type="hidden" name="db_id" value="{{ data.db }}">
+	    <input type="hidden" name="redis_name" value="{{ redis_name }}">
+    </div>
+    <div class="layui-form-mid layui-word-aux"></div>
+  </div>
+	<div class="layui-form-item">
+    <label class="layui-form-label">db</label>
+    <div class="layui-input-inline">
+      <input type="text" name="type" required lay-verify="required" placeholder="" readonly="readonly" value="{{ data.db }}" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux"></div>
+  </div>
+	<div class="layui-form-item">
+    <label class="layui-form-label">size</label>
+    <div class="layui-input-inline">
+      <input type="text" name="type" required lay-verify="required" placeholder="" readonly="readonly" value="{{ data.size }}" autocomplete="off" class="layui-input">
+	    <input type="hidden" name="db_id" value="{{ data.db }}">
+	    <input type="hidden" name="redis_id" value="{{ redis_id }}">
+    </div>
+    <div class="layui-form-mid layui-word-aux"></div>
+  </div>
+	{% ifequal data.type 'string' %}
+  <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">value</label>
+    <div class="layui-input-block">
+      <textarea name="value" placeholder=""  class="layui-textarea">{{ data.value }}</textarea>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label"></label>
+    <div class="layui-input-block">
+      <input type="hidden" name="Type" required  lay-verify="required" placeholder="" value="{{ data.type }}" autocomplete="off" class="layui-input">
+	    {% csrf_token %}
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+    </div>
+  </div>
+	{% endifequal %}
+</form>
+
+{% ifequal data.type 'zset' %}
+	{% for values in data.value %}
+		{% for key, value in values.items %}
+			<form class="layui-form" action="" method="post">
+				<div class="layui-row layui-col-space10">
+				  <div class="layui-col-md4">
+				      <div class="layui-form-item">
+						    <label class="layui-form-label">Score</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="Score" required  lay-verify="required" placeholder="" readonly="readonly" value="{{ key }}" autocomplete="off" class="layui-input">
+						    </div>
+					  </div>
+				  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <label class="layui-form-label">Value</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="Value" required  lay-verify="required" placeholder="" value="{{ value }}" autocomplete="off" class="layui-input">
+					      <input type="hidden" name="Old_Value" required  lay-verify="required" placeholder="" value="{{ value }}" autocomplete="off" class="layui-input">
+					      <input type="hidden" name="Type" required  lay-verify="required" placeholder="" value="{{ data.type }}" autocomplete="off" class="layui-input">
+						    {% csrf_token %}
+					    </div>
+					  </div>
+				  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+					    </div>
+					  </div>
+				  </div>
+				</div>
+			</form>
+		{% endfor %}
+	{% endfor %}
+{% endifequal %}
+{% ifequal data.type 'hash' %}
+	{% for key, value in data.value.items %}
+			<form class="layui-form" action="" method="post">
+				<div class="layui-row layui-col-space10">
+				  <div class="layui-col-md4">
+				      <div class="layui-form-item">
+						    <label class="layui-form-label">Key</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="Key" required  lay-verify="required" placeholder="" readonly="readonly" value="{{ key }}" autocomplete="off" class="layui-input">
+						    </div>
+					  </div>
+				  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <label class="layui-form-label">Value</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="Value" required  lay-verify="required" placeholder="" value="{{ value }}" autocomplete="off" class="layui-input">
+					      <input type="hidden" name="Type" required  lay-verify="required" placeholder="" value="{{ data.type }}" autocomplete="off" class="layui-input">
+						    {% csrf_token %}
+					    </div>
+					  </div>
+				  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+					    </div>
+					  </div>
+				  </div>
+				</div>
+			</form>
+	{% endfor %}
+{% endifequal %}
+{% ifequal data.type 'set' %}
+	{% for value in data.value %}
+			<form class="layui-form" action="" method="post">
+				<div class="layui-row layui-col-space10">
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <label class="layui-form-label">Value</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="Value" required  lay-verify="required" placeholder="" value="{{ value }}" autocomplete="off" class="layui-input">
+					      <input type="hidden" name="Old_Value" required  lay-verify="required" placeholder="" value="{{ value }}" autocomplete="off" class="layui-input">
+					      <input type="hidden" name="Type" required  lay-verify="required" placeholder="" value="{{ data.type }}" autocomplete="off" class="layui-input">
+						    {% csrf_token %}
+					    </div>
+					  </div>
+				  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+					    </div>
+					  </div>
+				  </div>
+				</div>
+			</form>
+	{% endfor %}
+{% endifequal %}
+{% ifequal data.type 'list' %}
+	{% for values in data.value %}
+		{% for key, value in values.items %}
+			<form class="layui-form" action="" method="post">
+				<div class="layui-row layui-col-space10">
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+						    <label class="layui-form-label">Index</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="Index" required  lay-verify="required" placeholder="" readonly="readonly" value="{{ key }}" autocomplete="off" class="layui-input">
+						    </div>
+					  </div>
+				  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <label class="layui-form-label">Value</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="Value" required  lay-verify="required" placeholder="" value="{{ value }}" autocomplete="off" class="layui-input">
+					      <input type="hidden" name="Type" required  lay-verify="required" placeholder="" value="{{ data.type }}" autocomplete="off" class="layui-input">
+						    {% csrf_token %}
+					    </div>
+					  </div>
+				  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+					    </div>
+					  </div>
+				  </div>
+				</div>
+			</form>
+		{% endfor %}
+	{% endfor %}
+{% endifequal %}
+<script>
+//Demo
+layui.use('form', function(){
+  var form = layui.form;
+
+  //监听提交
+  form.on('submit(formDemo)', function(data){
+{#    layer.msg(JSON.stringify(data.field));#}
+    return true;
+  });
+});
+</script>
+{% endblock %}

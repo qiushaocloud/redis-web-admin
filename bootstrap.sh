@@ -2,10 +2,10 @@
 
 echo "start service"
 
-echo "start init application dev yml"
-cd /app/redis-admin/src/main/resources
-./init_application_dev_yml.sh
-echo "finsh init application dev yml"
+echo "start init conf py"
+cd /app/redis-admin/conf
+./init_conf_py.sh
+echo "finsh init conf py"
 
 echo "start redis service"
 if [ ! -f $TEST_REDIS_PASSWORD ]; then
@@ -23,12 +23,13 @@ echo "finsh mysql service"
 
 sleep 5
 
-# echo "satrt redis-manager"
-# cd /app/redis-manager
-# ./bin/start.sh
-# sleep 10
-# tail -f logs/*.log
-# echo "finsh redis-manager"
+echo "satrt redis-admin"
+cd /app/redis-admin
+service nginx start
+./start.sh start
+sleep 10
+tail -f log/*.log
+echo "finsh redis-admin"
 
 echo "start while sleep"
 

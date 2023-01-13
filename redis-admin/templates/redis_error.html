@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="layui-row layui-col-space5">
+  <div class="layui-col-md5">
+    <div class="layui-row grid-demo">
+      <fieldset class="layui-elem-field layui-field-title">
+			  <legend>连接出错</legend>
+			</fieldset>
+      <div class="layui-col-md12">
+        <div class="layui-row layui-col-space5">
+        <table class="layui-table" lay-data="{height:500, width:709, url:'{% url 'checkredis' %}', id:'test'}" lay-filter="test">
+				  <thead>
+				    <tr>
+				      <th lay-data="{field:'name', width:120, sort: true, center: true}">name</th>
+				      <th lay-data="{field:'error', Minwidth:400}">错误信息</th>
+				    </tr>
+				  </thead>
+				</table>
+			</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+layui.use('table', function(){
+  var table = layui.table;
+});
+</script>
+{% endblock %}

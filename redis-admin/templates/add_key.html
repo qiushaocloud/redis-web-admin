@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+
+{% block title %}
+新增key
+{% endblock %}
+
+{% block content %}
+<div class="layui-tab">
+  <ul class="layui-tab-title">
+    <li {% ifequal this_tab 'string' %}class="layui-this"{% endifequal %}>string</li>
+    <li {% ifequal this_tab 'zset' %}class="layui-this"{% endifequal %}>zset</li>
+    <li {% ifequal this_tab 'set' %}class="layui-this"{% endifequal %}>set</li>
+    <li {% ifequal this_tab 'hash' %}class="layui-this"{% endifequal %}>hash</li>
+    <li {% ifequal this_tab 'list' %}class="layui-this"{% endifequal %}>list</li>
+  </ul>
+  <div class="layui-tab-content">
+    <div class="layui-tab-item layui-show">
+	    <form class="layui-form" action="" method="post">
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">key</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="key" required  lay-verify="required" placeholder="请输入key" value="" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">类型</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="type" required lay-verify="required" placeholder="" readonly="readonly" value="string" autocomplete="off" class="layui-input">
+			    </div>
+			    <div class="layui-form-mid layui-word-aux"></div>
+			  </div>
+        <div class="layui-form-item">
+			    <label class="layui-form-label">db</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="db_id" required lay-verify="required|number" placeholder="请输入db" value="{{ db }}" autocomplete="off" class="layui-input">
+				    {% csrf_token %}
+			    </div>
+			    <div class="layui-form-mid layui-word-aux"></div>
+			  </div>
+			  <div class="layui-form-item layui-form-text">
+			    <label class="layui-form-label">value</label>
+			    <div class="layui-input-block">
+			      <textarea name="value" placeholder=""  class="layui-textarea"></textarea>
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <div class="layui-input-block">
+			      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+			    </div>
+			  </div>
+			</form>
+    </div>
+
+    <div class="layui-tab-item">
+      <form class="layui-form" action="" method="post">
+				<div class="layui-row layui-col-space10">
+				 <div class="layui-form-item">
+			    <label class="layui-form-label">key</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="key" required  lay-verify="required" placeholder="请输入key" value="" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">类型</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="type" required lay-verify="required" placeholder="" readonly="readonly" value="zset" autocomplete="off" class="layui-input">
+			    </div>
+			    <div class="layui-form-mid layui-word-aux"></div>
+			  </div>
+        <div class="layui-form-item">
+			    <label class="layui-form-label">db</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="db_id" required lay-verify="required|number" placeholder="请输入db" value="{{ db }}" autocomplete="off" class="layui-input">
+				    {% csrf_token %}
+			    </div>
+			    <div class="layui-form-mid layui-word-aux"></div>
+			  </div>
+				  <div class="layui-col-md4">
+				      <div class="layui-form-item">
+						    <label class="layui-form-label">Score</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="score" required  lay-verify="required|number" placeholder="Score" value="" autocomplete="off" class="layui-input">
+						    </div>
+					  </div>
+				  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <label class="layui-form-label">Value</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="value" required  lay-verify="required" placeholder="" value="{{ value }}" autocomplete="off" class="layui-input">
+					    </div>
+					  </div>
+				  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+					    </div>
+					  </div>
+				  </div>
+				</div>
+			</form>
+    </div>
+
+    <div class="layui-tab-item">
+      <form class="layui-form" action="" method="post">
+				<div class="layui-row layui-col-space10">
+				 <div class="layui-form-item">
+			    <label class="layui-form-label">key</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="key" required  lay-verify="required" placeholder="请输入key" value="" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">类型</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="type" required lay-verify="required" placeholder="" readonly="readonly" value="set" autocomplete="off" class="layui-input">
+			    </div>
+			    <div class="layui-form-mid layui-word-aux"></div>
+			  </div>
+        <div class="layui-form-item">
+			    <label class="layui-form-label">db</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="db_id" required lay-verify="required|number" placeholder="请输入db" value="{{ db }}" autocomplete="off" class="layui-input">
+				    {% csrf_token %}
+			    </div>
+			    <div class="layui-form-mid layui-word-aux"></div>
+			  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <label class="layui-form-label">Value</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="value" required  lay-verify="required" placeholder="" value="{{ value }}" autocomplete="off" class="layui-input">
+					    </div>
+					  </div>
+				  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+					    </div>
+					  </div>
+				  </div>
+				</div>
+			</form>
+    </div>
+
+    <div class="layui-tab-item">
+    <form class="layui-form" action="" method="post">
+				<div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+			    <label class="layui-form-label">key</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="key" required  lay-verify="required" placeholder="请输入key" value="" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">类型</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="type" required lay-verify="required" placeholder="" readonly="readonly" value="hash" autocomplete="off" class="layui-input">
+			    </div>
+			    <div class="layui-form-mid layui-word-aux"></div>
+			  </div>
+        <div class="layui-form-item">
+			    <label class="layui-form-label">db</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="db_id" required lay-verify="required|number" placeholder="请输入db" value="{{ db }}" autocomplete="off" class="layui-input">
+				    {% csrf_token %}
+			    </div>
+			    <div class="layui-form-mid layui-word-aux"></div>
+			  </div>
+				  <div class="layui-col-md4">
+				      <div class="layui-form-item">
+						    <label class="layui-form-label">vKey</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="vkey" required  lay-verify="required" placeholder="" value="" autocomplete="off" class="layui-input">
+						    </div>
+					  </div>
+				  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <label class="layui-form-label">Value</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="value" required  lay-verify="required" placeholder="" value="" autocomplete="off" class="layui-input">
+					    </div>
+					  </div>
+				  </div>
+				  <div class="layui-col-md4">
+			      <div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+					    </div>
+					  </div>
+				  </div>
+				</div>
+			</form>
+    </div>
+
+    <div class="layui-tab-item">
+     <form class="layui-form" action="" method="post">
+				<div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+			    <label class="layui-form-label">key</label>
+			    <div class="layui-input-block">
+			      <input type="text" name="key" required  lay-verify="required" placeholder="请输入key" value="" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
+			  <div class="layui-form-item">
+			    <label class="layui-form-label">类型</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="type" required lay-verify="required" placeholder="" readonly="readonly" value="list" autocomplete="off" class="layui-input">
+			    </div>
+			    <div class="layui-form-mid layui-word-aux"></div>
+			  </div>
+        <div class="layui-form-item">
+			    <label class="layui-form-label">db</label>
+			    <div class="layui-input-inline">
+			      <input type="text" name="db_id" required lay-verify="required|number" placeholder="请输入db" value="{{ db }}" autocomplete="off" class="layui-input">
+				    {% csrf_token %}
+			    </div>
+			    <div class="layui-form-mid layui-word-aux"></div>
+			  </div>
+        <div class="layui-col-md4">
+			      <div class="layui-form-item">
+						    <label class="layui-form-label">value</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="value" required  lay-verify="required" placeholder="" value="" autocomplete="off" class="layui-input">
+						    </div>
+					  </div>
+			  </div>
+{#				  <div class="layui-col-md4">#}
+{#			      <div class="layui-form-item">#}
+{#					    <label class="layui-form-label">Value</label>#}
+{#					    <div class="layui-input-block">#}
+{#					      <input type="text" name="value" required  lay-verify="required" placeholder="" value="" autocomplete="off" class="layui-input">#}
+{#					    </div>#}
+{#					  </div>#}
+{#				  </div>#}
+			  <div class="layui-col-md4">
+		      <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+				    </div>
+				  </div>
+			  </div>
+			</div>
+		 </form>
+  </div>
+</div>
+</div>
+<script>
+//注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+layui.use('element', function(){
+  var element = layui.element;
+
+});
+
+layui.use('form', function () {
+		var form = layui.form;
+		form.on('submit(formDemo)', function (data) {
+{#				layer.open(content=JSON.stringify(data));#}
+{#				return false#}
+    })
+})
+</script>
+{% endblock %}

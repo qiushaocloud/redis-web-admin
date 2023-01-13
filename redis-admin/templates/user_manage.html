@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% block content %}
+{#<div class="demoTable">#}
+{#  搜索：#}
+{#  <div class="layui-inline">#}
+{#    <input class="layui-input" name="id" id="demoReload" autocomplete="off">#}
+{#  </div>#}
+{#  <button class="layui-btn" data-type="reload">搜索</button>#}
+{#</div>#}
+{% if user.is_superuser is True %}
+<div>
+  <button class="layui-btn layui-btn-normal"><a href="{% url 'add_user' %}">新增用户</a></button>
+</div>
+
+<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+<script>
+layui.use('table', function(){
+  var table = layui.table
+      ,form = layui.form;
+
+  //方法级渲染
+  table.render({
+    elem: '#LAY_table_user'
+    ,url: '{% url 'user_manage' %}?type=json'
+    ,cols: [[
+      {field:'id', title: 'id', align:'center', width:80, sort: true}
+      ,{field:'username', title: '用户名', align:'center', width:200, sort: true}
+      ,{field:'email', title: '邮箱', align:'center', width:200, sort: true}
+      ,{field:'is_superuser', title: '超级管理员', align:'center', width:120, sort: true, templet: '#superuserTpl'}
+      ,{field:'is_active', title: '是否激活', align:'center', width:120, sort: true, templet: '#activeTpl'}
+      ,{field:'last_login', title: '上一次登陆时间', align:'center', width:200, sort: true}
+      ,{fixed:'right', width:180, align:'center', toolbar: '#barDemo'}
+    ]]
+    ,id: 'testReload'
+    ,page: true
+    ,height: 600
+  });
+
+  var $ = layui.$, active = {
+    reload: function(){
+      var demoReload = $('#demoReload');
+
+      table.reload('testReload', {
+        where: {
+          key: {
+            id: demoReload.val()
+          }
+        }
+      });
+    }
+  };
+  table.on('checkbox(user)', function(obj){
+    console.log(obj)
+  });
+
+  table.on('tool(user)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'detail'){
+      console.log(datas);
+      layer.open({
+          title: datas.data.key,
+          content: JSON.stringify(datas.data.value)
+      });
+    } else if(obj.event === 'del'){
+      layer.confirm('真的删除行么', function(index){
+        var del_data = {"id": data.id, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
+        $.ajax({
+		        url: '{% url 'user_manage' %}',
+		        dataType: 'json',
+		        type: 'post',
+		        data: del_data,
+		        success:function (del_datas) {
+		            if(del_datas.code === 0){
+                  obj.del();
+                  layer.msg(del_datas.msg)
+		            }
+		            else{
+		                layer.msg(del_datas.msg)
+		            }
+            }
+        });
+        layer.close(index);
+      });
+    } else if(obj.event === 'edit'){
+        window.location.href="{% url 'change_user' %}?id="+data.id;
+    }
+
+  });
+
+  form.on('switch(superuser)', function(obj){
+    $.ajax({
+        url: '{% url 'edit_user' %}',
+        dataType: 'json',
+        type: 'post',
+        data: {'id': this.value, 'is_superuser': obj.elem.checked},
+        success:function (result) {
+            layer.msg(result.msg)
+        },
+        error:function () {
+            layer.msg('请求错误')
+        }
+    });
+  });
+
+  form.on('switch(active)', function(obj){
+      $.ajax({
+        url: '{% url 'edit_user' %}',
+        dataType: 'json',
+        type: 'post',
+        data: {'id': this.value, 'is_active': obj.elem.checked},
+        success:function (result) {
+            layer.msg(result.msg)
+        },
+        error:function () {
+            layer.msg('请求错误')
+        }
+    });
+  });
+
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+});
+
+</script>
+
+<script type="text/html" id="superuserTpl">
+{% verbatim %}
+    {{# if(d.is_superuser === true){ }}
+    <input type="checkbox" name="is_superuser" value="{{d.id}}" lay-skin="switch" lay-text="true|false" lay-filter="superuser" checked>
+    {{# } else {  }}
+    <input type="checkbox" name="is_superuser" value="{{d.id}}" lay-skin="switch" lay-text="true|false" lay-filter="superuser">
+    {{# } }}
+{% endverbatim %}
+</script>
+
+<script type="text/html" id="activeTpl">
+{% verbatim %}
+    {{# if(d.is_active === true){ }}
+    <input type="checkbox" name="is_active" value="{{d.id}}" lay-skin="switch" lay-text="true|false" lay-filter="active" checked>
+    {{# } else {  }}
+    <input type="checkbox" name="is_active" value="{{d.id}}" lay-skin="switch" lay-text="true|false" lay-filter="active">
+    {{# } }}
+{% endverbatim %}
+</script>
+
+<script type="text/html" id="barDemo">
+{#  <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="detail">查看</a>#}
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑用户</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除用户</a>
+
+</script>
+{% else %}
+    <script>
+    layui.use('layer', function(){
+      var layer = layui.layer;
+      layer.confirm('您没有权限，请联系管理员授权。', {
+          btn: ['确认']
+      }, function () {
+          window.location.href="/";
+      })
+    });
+    </script>
+{% endif %}
+{% endblock %}

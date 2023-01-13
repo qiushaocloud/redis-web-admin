@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>注册</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- CSS -->
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700'>
+    <link rel="stylesheet" href="{% static 'css/login/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login/supersized.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login/style.css' %}">
+<script src="{% static 'layui.js' %}"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+    <body>
+      <div class="page-container">
+        <h1>Redis 管理平台</h1>
+        <br>
+        <h2>注册中心</h2>
+        <form action="" method="post" id="from">
+          <input type="text" name="username" class="username" placeholder="用户名">
+          <input type="text" name="email" class="email" placeholder="邮箱">
+          <input type="password" name="password1" class="password1" placeholder="密码">
+          <input type="password" name="password2" class="password2" placeholder="确认密码">
+          <button type="submit">注册</button>
+        </form>
+      </div>
+
+      <!-- Javascript -->
+      <script src="{% static 'js/login/jquery-1.8.2.min.js' %}"></script>
+      <script src="{% static 'js/login/supersized.3.2.7.min.js' %}"></script>
+      <script src="{% static 'js/login/supersized-init.js' %}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+      <script type="text/javascript">
+      layui.use('layer', function () {
+          var layer = layui.layer;
+          $("#from").on("submit", function (ev) {
+              var username = $(this).find('.username').val()
+                  , email = $(this).find('.email').val()
+                  , password1 = $(this).find('.password1').val()
+                  , password2 = $(this).find('.password2').val();
+              console.log(password1);
+              if (password1 === '') {
+                  layer.msg("密码不能为空")
+              } else if (username !== '' && email !== '' && password1 === password2) {
+                  $.ajax({
+                      type: "POST",
+                      dataType: "json",
+                      url: "/register/",
+                      data: $('#from').serialize(),
+                      success: function (result) {
+                          if (result.code == 0) {
+                              layer.msg(result.msg);
+                              window.location.href = '/login/'
+                          } else {
+                              layer.msg(result.msg);
+                          }
+                      },
+                      error: function () {
+                          layer.msg("请求错误，请联系管理员！");
+                      }
+                  });
+              } else if (username === '') {
+                  layer.msg("用户名不能为空")
+              } else if (email === '') {
+                  layer.msg("邮箱不能为空")
+              } else if (password1 !== password2) {
+                  layer.msg("两次密码不一致")
+              }
+              ev.preventDefault()
+          })
+      })
+      </script>
+    <script>
+		//JavaScript代码区域
+		layui.use('element', function(){
+		  var element = layui.element;
+		  var csrftoken = Cookies.get('csrftoken');
+		  Cookies.set('csrftoken', '{{ csrf_token }}');
+		  $.ajaxSetup({
+				  headers: {'X-CSRFToken': csrftoken}
+		  });
+		});
+		</script>
+  </body>
+</html>
+

@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="demoTable">
+{#  搜索：#}
+{#  <div class="layui-inline">#}
+{#    <input class="layui-input" name="id" id="demoReload" autocomplete="off">#}
+{#  </div>#}
+{#  <button class="layui-btn" data-type="reload">搜索</button>#}
+  <div class="layui-inline">
+	  <button class="layui-btn" data-type="addRedis">新增redis</button>
+  </div>
+</div>
+
+
+<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+<script>
+layui.use('table', function(){
+  var table = layui.table,
+    $ = layui.jquery;
+
+  //方法级渲染
+  table.render({
+    elem: '#LAY_table_user'
+    ,url: '/redis/list/'
+    ,cols: [[
+      {checkbox: true, fixed: true}
+      ,{field:'id', title: 'ID', width:60, sort: true}
+      ,{field:'name', title: '名称', width:80, sort: true, edit: 'text'}
+      ,{field:'host', title: '主机', width:150, sort: true, edit: 'text'}
+      ,{field:'port', title: '端口', width:80, sort: true, edit: 'text'}
+      ,{field:'database', title: 'DB数', width:80, sort: true, edit: 'text'}
+      ,{field:'type', title: '类型', width:80, sort: true}
+      ,{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}
+    ]]
+    ,id: 'testReload'
+    ,page: true
+    ,height: 600
+  });
+
+  var $ = layui.$, active = {
+    reload: function(){
+      var demoReload = $('#demoReload');
+
+      table.reload('testReload', {
+        where: {
+          key: {
+            id: demoReload.val()
+          }
+        }
+      });
+    }
+  };
+
+  //监听单元格编辑
+  table.on('edit(user)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+     $.ajax({
+          url: '/redis/list/edit/',
+          dataType: 'json',
+          type: 'post',
+          data: data,
+          success: function (result) {
+              layer.closeAll('loading');
+              layer.alert('修改 ID: ' + data.id + ' 字段: ' + field + ' 修改为:' + value + ' 消息: ' + result.msg)
+          },
+          error: function () {
+              layer.closeAll('loading');
+              layer.msg('请求错误', {icon: 5})
+          }
+      });
+  });
+
+  table.on('tool(user)', function(obj){
+    var data = obj.data;
+    console.log(obj.event);
+		{#    获取value   #}
+    if(obj.event === 'del'){
+        layer.load();
+        $.ajax({
+          url: '{% url 'redis_del' %}',
+          dataType: 'json',
+          type: 'post',
+          data: data,
+          success: function (result) {
+              layer.closeAll('loading');
+              if (result.code === 0){
+                  layer.msg(result.msg);
+                  obj.del()
+              } else {
+                  layer.msg(result.msg)
+              }
+          },
+          error: function () {
+              layer.closeAll('loading');
+              layer.msg('请求错误', {icon: 5})
+          }
+      });
+    } else if(obj.event === 'detail'){
+        layer.msg('编辑请点击单元格修改!', function () {})
+    }
+  });
+
+  var $ = layui.$, active = {
+    addRedis: function(){ // 新增redis
+      var checkStatus = table.checkStatus('idTest')
+      ,data = checkStatus.data;
+      //iframe层
+      layer.open({
+        type: 2,
+        title: 'Redis配置新增',
+        shadeClose: true,
+        shade: 0.8,
+        area: ['80%', '90%'],
+        content: '/redis/list/add/' //iframe的url
+      });
+    }
+  };
+
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+});
+
+</script>
+
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+{% endblock %}

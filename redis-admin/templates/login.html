@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- CSS -->
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700'>
+    <link rel="stylesheet" href="{% static 'css/login/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login/supersized.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login/style.css' %}">
+<script src="{% static 'layui.js' %}"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+    <body>
+      <div class="page-container">
+        <h1>Redis 管理平台</h1>
+        <form action="" method="post" id="from">
+          <input type="text" name="username" class="username" placeholder="用户名或邮箱">
+          <input type="password" name="password" class="password" placeholder="密码">
+          <button type="submit">登陆</button>
+        </form>
+      </div>
+
+      <!-- Javascript -->
+      <script src="{% static 'js/login/jquery-1.8.2.min.js' %}"></script>
+      <script src="{% static 'js/login/supersized.3.2.7.min.js' %}"></script>
+      <script src="{% static 'js/login/supersized-init.js' %}"></script>
+      <script src="{% static 'js/js.cookie.js' %}"></script>
+      <script type="text/javascript">
+      layui.use('layer', function () {
+          var layer = layui.layer;
+          $("#from").on("submit", function (ev) {
+	        $.ajax({
+		        type: "POST",
+		        dataType: "json",
+		        url: "/login/",
+		        data: $('#from').serialize(),
+		        success: function (result) {
+				        if (result.code == 0) {
+				            for (var item in result.data){
+				                layui.data('premission', {
+				                    key: item,
+                                    value: result.data[item]
+				                })
+				            }
+				            for (var menu in result.menu){
+				                layui.data('menu', {
+				                    key: 'list',
+                                    value: result.menu
+                                });
+                            }
+                            layui.data('menu', {
+                                key: 'left_menu',
+                                value: result.left_menu
+                            });
+				            window.location.href='/?pre=true'
+				        } else {
+                            layer.msg(result.msg);
+				        }
+            },
+		        error: function () {
+				        alert("请求错误，请联系管理员！");
+				        window.location.href='/login/'
+            }
+	        });
+	        ev.preventDefault()
+        })
+
+          })
+      </script>
+    <script>
+		//JavaScript代码区域
+		layui.use('element', function(){
+		  var element = layui.element;
+		  var csrftoken = Cookies.get('csrftoken');
+		  Cookies.set('csrftoken', '{{ csrf_token }}');
+		  $.ajaxSetup({
+				  headers: {'X-CSRFToken': csrftoken}
+		  });
+          layui.data('premission', null);
+          layui.data('menu', null)
+		});
+    </script>
+  </body>
+</html>
+

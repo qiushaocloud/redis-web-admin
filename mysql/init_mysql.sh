@@ -25,14 +25,18 @@ echo "start mysqld --skip-grant-tables"
 mysqld --skip-grant-tables &
 sleep 10
 
-IS_EXIST_DB=`mysql < check_is_exist_db.sql | grep x-redis-admin | grep -v grep | wc -l`
+IS_EXIST_DB=`mysql < check_is_exist_db.sql | grep redis_admin | grep -v grep | wc -l`
 echo "IS_EXIST_DB:$IS_EXIST_DB"
 if [ $IS_EXIST_DB == 0 ];then
   echo "no exist db, run create db sql"
   mysql < create_db.sql
 
-  echo "run /app/redis-admin/sql/db.sql"
-  #mysql < /app/redis-admin/sql/db.sql
+  oldPwd=$PWD
+  cd /app/redis-admin
+  python manage.py migrate
+  #python manage.py createsuperuser --username $RM_AUTH_USERNAME --email $RM_AHTH_EMAIL --noinput
+  bash create_super_admin.sh
+  cd $oldPwd
 fi
 
 echo "run change root pwd sql"

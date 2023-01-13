@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>{% block title %}{% endblock %}</title>
+<link rel="stylesheet" href="{% static 'css/layui.css' %}">
+{% block css %}{% endblock %}
+<script src="{% static 'layui.js' %}"></script>
+<script src="{% static 'js/js.cookie.js' %}"></script>
+{% block headerjs %}{% endblock %}
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo layui-bg-blue">Redis管理平台</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+      <li class="layui-nav-item {% if console %}layui-this{% endif %}"><a href="/">控制台</a></li>
+      <li class="layui-nav-item {% if error %}layui-this{% endif %}"><a href="/error/">连接错误</a></li>
+      <li class="layui-nav-item {% if record %}layui-this{% endif %}">
+	      <a href="javascript:;">记录</a>
+        <dl class="layui-nav-child">
+          <dd><a href="{% url 'operation_edit' %}">编辑记录</a></dd>
+          <dd><a href="{% url 'operation_del' %}">删除记录</a></dd>
+        </dl>
+      </li>
+      {% if user.is_superuser is True %}
+      <li class="layui-nav-item {% if top_menu == 'user' %}layui-this{% endif %}"><a href="/user/manage/">用户管理</a></li>
+      <li class="layui-nav-item {% if top_menu == 'conf' %}layui-this{% endif %}"><a href="/redis/list/">redis管理</a></li>
+      {% endif %}
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+          <img src="{{ user.img }}" class="layui-nav-img">
+          {{ user.username }}
+        </a>
+      </li>
+      <li class="layui-nav-item"><a href="/logout/">退出</a></li>
+    </ul>
+  </div>
+
+  <div class="layui-side layui-bg-black layui-bg-blue">
+    <div class="layui-side-scroll" id="menu">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+    </div>
+  </div>
+
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+		    <div class="layui-row layui-col-space10">
+				  <div class="layui-col-md12">
+			      {% block content %}
+				    {% endblock %}
+				  </div>
+				</div>
+    </div>
+  </div>
+
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © Carey
+  </div>
+</div>
+{% block endjs %}{% endblock %}
+
+<script>
+//JavaScript代码区域
+layui.use('element', function(){
+  var element = layui.element,
+  csrftoken = Cookies.get('csrftoken'),
+  $ = layui.jquery,
+  data = layui.data('menu');
+
+  // 获取当前菜单
+  element.on('nav(test)', function (elem) {
+      layui.each(data.list, function (index, item) {
+          if(item.name === elem.text()){
+            if(elem.text() === data.one){
+                layui.data('menu', {
+                    key: 'one',
+                    value: ''
+                })
+            } else {
+                layui.data('menu', {
+                    key: 'one',
+                    value: elem.text()
+                })
+            }
+          } else if(item.name !== elem.text()){
+              layui.data('menu', {
+                  key: 'two',
+                  value: elem.text()
+              })
+          }
+      });
+  });
+
+  // 设置CSRF Token
+  $.ajaxSetup({
+	headers: {'X-CSRFToken': csrftoken}
+  });
+
+});
+</script>
+{% verbatim %}
+<script id="demo" type="text/html">
+    <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        {{# layui.each(d.list, function(index, item){ }}
+        {{# if(d.one === item.name){ }}
+        <li class="layui-nav-item layui-nav-itemed">
+        {{# } else { }}
+        <li class="layui-nav-item ">
+        {{# } }}
+          <a class="" href="javascript:;">{{ item.name }}</a>
+          <dl class="layui-nav-child">
+          {{#  layui.each(item.db, function(index, dbs){ }}
+            {{# if(d.two === dbs && d.one === item.name){  }}
+            <dd class="layui-this">
+            {{# } else { }}
+            <dd class="">
+            {{# } }}
+                <a href="/{{ item.name }}/{{ dbs }}/">{{ dbs }}</a>
+            </dd>
+          {{#  }); }}
+          </dl>
+        </li>
+        {{# });  }}
+      </ul>
+</script>
+{% endverbatim %}
+<script>
+    layui.use('laytpl', function () {
+        var laytpl = layui.laytpl;
+        var data = layui.data('menu');
+        var getTpl = demo.innerHTML
+        ,view = document.getElementById('menu');
+        laytpl(getTpl).render(data, function(html){
+          view.innerHTML = html;
+        });
+    })
+</script>
+
+</body>
+</html>

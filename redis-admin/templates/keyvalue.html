@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="demoTable">
+  搜索：
+  <div class="layui-inline">
+    <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+  </div>
+  <button class="layui-btn" data-type="reload">搜索</button>
+  <div class="layui-inline">
+	  <button class="layui-btn layui-btn-normal" data-type="addkey">新增</button>
+  </div>
+  <div class="layui-inline">
+	  <button class="layui-btn layui-btn-danger" id="clear">清空DB</button>
+  </div>
+</div>
+
+
+<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+<script>
+layui.use('table', function(){
+  var table = layui.table,
+  localdata = layui.data('premission'),
+	auth = localdata.{{ redis_name }},
+    $ = layui.jquery;
+
+
+  //方法级渲染
+  table.render({
+    elem: '#LAY_table_user'
+    ,url: '/get_key/{{ redis_name }}/{{ db_id }}/'
+    ,cols: [[
+      {checkbox: true, fixed: true}
+      ,{field:'key', title: 'dbkey', width:1000, sort: true}
+      ,{fixed:'right', width:260, align:'center', toolbar: '#barDemo'}
+    ]]
+    ,id: 'testReload'
+    ,page: true
+    ,height: 600
+  });
+
+  var $ = layui.$, active = {
+    reload: function(){
+      var demoReload = $('#demoReload');
+
+      table.reload('testReload', {
+        where: {
+          key: {
+            id: demoReload.val()
+          }
+        }
+      });
+    },
+    addkey: function () {
+        window.location.href="/add/key/{{ redis_name }}/?db={{ db_id }}"
+    }
+  };
+
+  table.on('tool(user)', function(obj){
+    var data = obj.data;
+		{#    获取value   #}
+    layer.load();
+    if(obj.event === 'detail'){
+        if(auth === 3 || auth === 2 || auth === 1) {
+            $.ajax({
+                url: '/view/{{ redis_name }}/{{ db_id }}/' + data.key + '/',
+                dataType: 'json',
+                type: 'get',
+                success: function (datas) {
+                    layer.closeAll('loading');
+                    layer.open({
+                        title: datas.data.key,
+                        content: JSON.stringify(datas.data.value)
+                    });
+                },
+                error: function () {
+                    layer.closeAll('loading');
+                    layer.msg('请求错误!', {icon: 5})
+                }
+            });
+        } else {
+            layer.msg("您没有权限噢 😯");
+            layer.closeAll('loading')
+        }
+    } else if(obj.event === 'del'){
+      if(auth === 3) {
+          layer.confirm('真的删除么?', {
+              icon: 3,
+              title: '提示',
+              btn: ['确认', '取消']
+          }, function (index) {
+              var del_data = {
+                  "redis_name": '{{ redis_name }}',
+                  'db_id': {{ db_id }},
+                  'key': data.key
+
+              };
+              $.ajax({
+                  url: '/del/key/',
+                  dataType: 'json',
+                  type: 'post',
+                  data: del_data,
+                  success: function (del_datas) {
+                      layer.closeAll('loading');
+                      if (del_datas.code === 0) {
+                          obj.del();
+                          layer.msg(del_datas.msg)
+                      }
+                      else {
+                          layer.msg(del_datas.msg)
+                      }
+                  },
+                  error: function () {
+                      layer.closeAll('loading');
+                      layer.msg('请求错误', {icon: 5})
+                  }
+              });
+              layer.close(index);
+          }, function () {
+              layer.closeAll('loading');
+          });
+      } else {
+          layer.msg("您没有权限噢 😯");
+		      layer.closeAll('loading')
+      }
+    } else if(obj.event === 'edit'){
+        if(auth === 2) {
+            window.location.href = "/edit/{{ redis_name }}/db{{ db_id }}?key=" + data.key;
+        } else if(auth === 3){
+            window.location.href = "/edit/{{ redis_name }}/db{{ db_id }}?key=" + data.key;
+        } else {
+            layer.msg("您没有权限噢 😯");
+            layer.closeAll('loading')
+        }
+    } else if(obj.event === 'edit_ttl'){
+        if(auth === 3 || auth === 2 || auth === 1) {
+            $.ajax({
+                url: '/view/{{ redis_name }}/{{ db_id }}/' + data.key + '/?type=ttl',
+                dataType: 'json',
+                type: 'get',
+                success: function (datas) {
+                    layer.closeAll('loading');
+                    layer.prompt({
+                        title: "TTL",
+                        formType: 0,
+                        value: datas.data
+                    }, function (value, index, elem) {
+                        if(auth === 3) {
+                            layer.load();
+                            $.ajax({
+                                url: '/view/{{ redis_name }}/{{ db_id }}/' + data.key + '/?type=ttl',
+                                dataType: 'json',
+                                type: 'post',
+                                data: {'ttl': value},
+                                success: function (datas) {
+                                    layer.closeAll('loading');
+                                    layer.msg(datas.msg);
+                                },
+                                error: function () {
+                                    layer.closeAll('loading');
+                                    layer.msg('请求错误', {icon: 5})
+                                }
+                            });
+                            layer.close(index);
+                        } else {
+                            layer.closeAll('loading');
+                            layer.msg('您没有权限噢 😯')
+                        }
+                    });
+                },
+                error: function () {
+                    layer.closeAll('loading');
+                    layer.msg('请求错误!', {icon: 5})
+                }
+            });
+        } else {
+            layer.msg("您没有权限噢 😯");
+            layer.closeAll('loading')
+        }
+    }
+  });
+
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+  $('#clear').on('click', function () {
+      if (auth === 3) {
+          layer.confirm('确定清空DB数据吗？', {
+              btn: ['确定', '取消'] //按钮
+          }, function () {
+              $.ajax({
+                  url: '/clear/db',
+                  dataType: 'json',
+                  type: 'post',
+                  data: {'redis_name': '{{ redis_name }}', 'db_id': {{ db_id }}},
+                  success: function (datas) {
+                      layer.msg(datas.msg)
+                  },
+                  error: function () {
+                      layer.msg('请求错误', {icon: 5})
+                  }
+              })
+          });
+      } else {
+          layer.msg("您没有权限噢 😯");
+          layer.closeAll('loading')
+      }
+  });
+});
+
+</script>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">查看</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit_ttl">TTL</a>
+  <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+</script>
+{% endblock %}
