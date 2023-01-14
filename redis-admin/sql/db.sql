@@ -1,5 +1,3 @@
-use x-redis-admin;
-
 create table sys_area
 (
 	id bigint auto_increment comment '编号'
@@ -41,7 +39,7 @@ create table sys_dict
 	create_by tinytext null,
 	create_date timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
 	update_by tinytext null,
-	update_date timestamp default CURRENT_TIMESTAMP not null,
+	update_date timestamp default '0000-00-00 00:00:00' not null,
 	remarks varchar(255) null,
 	del_flag char null
 )
