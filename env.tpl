@@ -1,5 +1,5 @@
 ### application-dev.yml 环境变量
-SERVER_PORT = 80 #容器内服务端口
+SERVER_PORT = 9898 #容器内服务端口
 RM_AUTH_USERNAME = admin #管理员用户名
 RM_AUTH_PASSWORD = password #管理员密码
 DATASOURCE_ADDR = localhost:3306 # mysql 连接地址

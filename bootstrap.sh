@@ -23,12 +23,13 @@ echo "finsh mysql service"
 
 sleep 5
 
-# echo "satrt redis-manager"
-# cd /app/redis-manager
-# ./bin/start.sh
-# sleep 10
-# tail -f logs/*.log
-# echo "finsh redis-manager"
+echo "satrt redis-admin"
+cd /app/redis-admin && mvn clean package
+cd target
+java -jar redis-admin-1.0.0-SNAPSHOT.war
+sleep 10
+tail -f logs/*.log
+echo "finsh redis-admin"
 
 echo "start while sleep"
 

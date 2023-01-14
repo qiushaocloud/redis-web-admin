@@ -5,7 +5,7 @@ services:
       container_name: qiushao-redis-web-admin
       hostname: qiushao-redis-web-admin
       ports:
-        - $EXTERNAL_SVC_PORT:9898
+        - $EXTERNAL_SVC_PORT:$SERVER_PORT
         - $EXTERNAL_MYSQL_PORT:3306
         - $EXTERNAL_TEST_REDIS_PORT:6379
       volumes:
