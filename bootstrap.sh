@@ -28,7 +28,7 @@ cd /app/redis-admin && mvn clean package
 cd target
 java -jar redis-admin-1.0.0-SNAPSHOT.war
 sleep 10
-tail -f logs/*.log
+tail -f /app/redis-admin/log/*.log
 echo "finsh redis-admin"
 
 echo "start while sleep"
