@@ -28,9 +28,15 @@ RUN mkdir -p /opt/tomcat \
     && groupadd tomcat \
     && useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat \
     && cd /tmp \
-    && $ curl -O https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.71/bin/apache-tomcat-9.0.71.tar.gz \
-    && 
+    && curl -O https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.71/bin/apache-tomcat-9.0.71.tar.gz \
+    && tar xzvf apache-tomcat-9*tar.gz -C /opt/tomcat --strip-components=1 \
+    && cd /opt/tomcat \
+    && chgrp -R tomcat /opt/tomcat \
+    && chmod -R g+r conf \
+    && chmod g+x conf \
+    && chown -R tomcat webapps/ work/ temp/ logs/
 
+COPY ./tomcat.service /etc/systemd/system/tomcat.service
 COPY ./bootstrap.sh /app/bootstrap.sh
 COPY ./mysql /app/mysql
 
