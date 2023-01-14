@@ -1,3 +1,5 @@
+use x-redis-admin;
+
 create table sys_area
 (
 	id bigint auto_increment comment '编号'
