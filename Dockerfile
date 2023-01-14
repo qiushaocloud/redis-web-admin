@@ -42,6 +42,10 @@ COPY ./others/tomcat.service /etc/systemd/system/tomcat.service
 COPY ./bootstrap.sh /app/bootstrap.sh
 COPY ./mysql /app/mysql
 
+RUN  apt-get install --reinstall -y systemd \
+    && systemctl daemon-reload \
+    && systemctl enable tomcat
+
 RUN chmod 777 /app/bootstrap.sh \
     && chmod 777 /app/mysql/*.sh \
     && chmod 777 /app/redis-admin/src/main/resources/*.sh \
