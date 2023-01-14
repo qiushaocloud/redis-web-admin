@@ -21,6 +21,7 @@ RUN mkdir -p /var/run/mysqld \
     && chown mysql /var/run/mysqld/
     
 COPY ./redis-admin /app/redis-admin
+COPY ./maven-settings.xml /usr/share/maven/conf/settings.xml
 RUN cd /app/redis-admin \
     && mvn clean package
 
