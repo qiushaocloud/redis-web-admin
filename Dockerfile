@@ -24,6 +24,13 @@ COPY ./redis-admin /app/redis-admin
 RUN cd /app/redis-admin \
     && mvn clean package
 
+RUN mkdir -p /opt/tomcat \
+    && groupadd tomcat \
+    && useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat \
+    && cd /tmp \
+    && $ curl -O https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.71/bin/apache-tomcat-9.0.71.tar.gz \
+    && 
+
 COPY ./bootstrap.sh /app/bootstrap.sh
 COPY ./mysql /app/mysql
 
