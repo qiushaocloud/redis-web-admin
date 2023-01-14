@@ -43,7 +43,6 @@ COPY ./bootstrap.sh /app/bootstrap.sh
 COPY ./mysql /app/mysql
 
 RUN  apt-get install --reinstall -y systemd \
-    && systemctl daemon-reload \
     && systemctl enable tomcat
 
 RUN chmod 777 /app/bootstrap.sh \
