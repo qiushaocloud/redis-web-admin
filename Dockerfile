@@ -21,15 +21,15 @@ RUN mkdir -p /var/run/mysqld \
     && chown mysql /var/run/mysqld/
     
 COPY ./redis-admin /app/redis-admin
-COPY ./maven-settings.xml /usr/share/maven/conf/settings.xml
+COPY ./others/maven-settings.xml /usr/share/maven/conf/settings.xml
+COPY ./others/apache-tomcat-8.5.6.tar.gz /opt/apache-tomcat-8.5.6.tar.gz
 RUN cd /app/redis-admin \
     && mvn clean package
 
 RUN mkdir -p /opt/tomcat \
     && groupadd tomcat \
     && useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat \
-    && cd /tmp \
-    && curl -O https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.6/bin/apache-tomcat-8.5.6.tar.gz \
+    && cd /opt \
     && tar xzvf apache-tomcat-8.5.6.tar.gz -C /opt/tomcat --strip-components=1 \
     && rm -rf apache-tomcat-8.5.6.tar.gz \
     && cd /opt/tomcat \
@@ -38,7 +38,7 @@ RUN mkdir -p /opt/tomcat \
     && chmod g+x conf \
     && chown -R tomcat webapps/ work/ temp/ logs/
 
-COPY ./tomcat.service /etc/systemd/system/tomcat.service
+COPY ./others/tomcat.service /etc/systemd/system/tomcat.service
 COPY ./bootstrap.sh /app/bootstrap.sh
 COPY ./mysql /app/mysql
 
