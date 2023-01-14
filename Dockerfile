@@ -30,8 +30,8 @@ RUN mkdir -p /opt/tomcat \
     && useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat \
     && cd /tmp \
     && curl -O https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.6/bin/apache-tomcat-8.5.6.tar.gz \
-    && tar xzvf apache-tomcat-9*tar.gz -C /opt/tomcat --strip-components=1 \
-    && rm -rf apache-tomcat-9*tar.gz \
+    && tar xzvf apache-tomcat-8.5.6.tar.gz -C /opt/tomcat --strip-components=1 \
+    && rm -rf apache-tomcat-8.5.6.tar.gz \
     && cd /opt/tomcat \
     && chgrp -R tomcat /opt/tomcat \
     && chmod -R g+r conf \
