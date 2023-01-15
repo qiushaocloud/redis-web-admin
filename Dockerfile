@@ -7,6 +7,12 @@ ENV SERVER_PORT 9898
 ENV DATASOURCE_ADDR localhost:3306
 ENV DATASOURCE_USERNAME root
 ENV DATASOURCE_PASSWORD rootmysqlpassword
+ENV JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+ENV CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+ENV CATALINA_HOME=/opt/tomcat
+ENV CATALINA_BASE=/opt/tomcat
+ENV CATALINA_OPTS='-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
+ENV JAVA_OPTS='-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
 
 USER root
 

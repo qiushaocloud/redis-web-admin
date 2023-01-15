@@ -22,7 +22,7 @@ cd /app/mysql
 echo "finsh mysql service"
 
 # echo "start tomcat service"
-# /opt/tomcat/bin/startup.sh
+/opt/tomcat/bin/startup.sh run
 # echo "finsh tomcat service"
 
 sleep 5
