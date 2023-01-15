@@ -29,6 +29,7 @@ COPY ./others/maven-settings.xml /usr/share/maven/conf/settings.xml
 COPY ./others/tomcat-context.xml /opt/tomcat/conf/context.xml
 COPY ./others/apache-tomcat-8.5.6.tar.gz /opt/apache-tomcat-8.5.6.tar.gz
 RUN cd /app/redis-admin \
+    && mvn clean install \
     && mvn clean package
 
 RUN mkdir -p /opt/tomcat \
