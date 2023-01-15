@@ -21,6 +21,10 @@ cd /app/mysql
 ./init_mysql.sh
 echo "finsh mysql service"
 
+echo "start tomcat service"
+/opt/tomcat/bin/startup.sh
+echo "finsh tomcat service"
+
 sleep 5
 
 echo "satrt redis-admin"

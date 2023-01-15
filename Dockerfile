@@ -38,13 +38,8 @@ RUN mkdir -p /opt/tomcat \
     && chmod g+x conf \
     && chown -R tomcat webapps/ work/ temp/ logs/
 
-RUN  apt-get install --reinstall -y systemd
-
-COPY ./others/tomcat.service /etc/systemd/system/tomcat.service
 COPY ./bootstrap.sh /app/bootstrap.sh
 COPY ./mysql /app/mysql
-
-RUN  systemctl enable tomcat.service
 
 RUN chmod 777 /app/bootstrap.sh \
     && chmod 777 /app/mysql/*.sh \
