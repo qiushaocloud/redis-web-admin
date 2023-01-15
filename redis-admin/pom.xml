@@ -305,6 +305,7 @@
                 <configuration>
                     <excludeArtifactIds>
                         slf4j-log4j12
+                        servlet-api
                     </excludeArtifactIds>
                 </configuration>
             </plugin>
