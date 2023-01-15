@@ -22,7 +22,6 @@
 ### 测试地址：https://www.qiushaocloud.top/redis-web-admin/
 > 温馨提示：请您测试的时候不要修改这两个账号的密码哦，您可以用 admin 账号创建一个属于您的 admin/普通 账号进行测试
 * 超级管理员：账号不提供 密码: 不提供
-* 管理员：admin(账号) admin(密码)
 * 普通成员：test(账号) test(密码)
 
 ### 下载镜像
