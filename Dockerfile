@@ -36,7 +36,7 @@ RUN sed -i "s/^bind 127.0.0.1/#bind 127.0.0.1/" /etc/redis/redis.conf \
     && sed -i "s/^# requirepass foobared/requirepass redispassword/" /etc/redis/redis.conf
 
 ### 可以映射的目录
-#VOLUME ["/data"]
+# VOLUME ["/data"]
 # EXPOSE 9898
 WORKDIR /app
 

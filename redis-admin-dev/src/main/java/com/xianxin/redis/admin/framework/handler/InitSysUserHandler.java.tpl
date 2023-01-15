@@ -23,7 +23,6 @@ public class InitSysUserHandler implements ApplicationRunner {
         if (count == 0) {
             log.info("开始初始化用户信息...");
             sysUserRepository.save(adminUser());
-            sysUserRepository.save(devUser());
             log.info("初始化完成！");
         }
     }
@@ -31,31 +30,15 @@ public class InitSysUserHandler implements ApplicationRunner {
     private SysUser adminUser() {
         SysUser sysUser = new SysUser();
         sysUser.setId("1");
-        sysUser.setUsername("admin");
+        sysUser.setUsername("<RM_AUTH_USERNAME>");
         sysUser.setNickname("系统管理员");
         sysUser.setAddr("坐标上海");
-        sysUser.setPassword("admin");
-        sysUser.setQq("1138645967");
+        sysUser.setPassword("<RM_AUTH_PASSWORD>");
+        sysUser.setQq("123456789");
         sysUser.setSex("男");
         sysUser.setRole(RoleType.ADMIN.name());
         sysUser.setStatus(Boolean.TRUE);
-        sysUser.setAvatar("https://portrait.gitee.com/uploads/avatars/user/523/1571481_xianxin98_1580311321.png");
-        log.info("Role:{} - username:{} - password:{}", sysUser.getRole(), sysUser.getUsername(), sysUser.getPassword());
-        return sysUser;
-    }
-
-    private SysUser devUser() {
-        SysUser sysUser = new SysUser();
-        sysUser.setId("2");
-        sysUser.setUsername("developer");
-        sysUser.setNickname("贤心i");
-        sysUser.setAddr("坐标上海");
-        sysUser.setPassword("developer");
-        sysUser.setQq("1138645967");
-        sysUser.setSex("男");
-        sysUser.setRole(RoleType.DEV.name());
-        sysUser.setStatus(Boolean.TRUE);
-        sysUser.setAvatar("https://portrait.gitee.com/uploads/avatars/user/523/1571481_xianxin98_1580311321.png");
+        sysUser.setAvatar("https://githubcdn.qiushaocloud.top/gh/qiushaocloud/cdn-static/blog/user_default.jpg");
         log.info("Role:{} - username:{} - password:{}", sysUser.getRole(), sysUser.getUsername(), sysUser.getPassword());
         return sysUser;
     }
