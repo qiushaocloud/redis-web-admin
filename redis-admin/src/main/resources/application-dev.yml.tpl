@@ -4,6 +4,8 @@ server:
     uri-encoding: UTF-8
     max-threads: 1000
     min-spare-threads: 30
+    resource:
+      allow-caching: false
     accesslog:
       pattern: common
       enabled: true

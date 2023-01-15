@@ -7,12 +7,6 @@ ENV SERVER_PORT 9898
 ENV DATASOURCE_ADDR localhost:3306
 ENV DATASOURCE_USERNAME root
 ENV DATASOURCE_PASSWORD rootmysqlpassword
-ENV JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
-ENV CATALINA_PID=/opt/tomcat/temp/tomcat.pid
-ENV CATALINA_HOME=/opt/tomcat
-ENV CATALINA_BASE=/opt/tomcat
-ENV CATALINA_OPTS='-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
-ENV JAVA_OPTS='-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
 
 USER root
 
@@ -28,23 +22,9 @@ RUN mkdir -p /var/run/mysqld \
     
 COPY ./redis-admin /app/redis-admin
 COPY ./others/maven-settings.xml /usr/share/maven/conf/settings.xml
-COPY ./others/tomcat-context.xml /opt/tomcat/conf/context.xml
-COPY ./others/apache-tomcat-8.5.6.tar.gz /opt/apache-tomcat-8.5.6.tar.gz
 RUN cd /app/redis-admin \
     && mvn clean install \
     && mvn clean package
-
-RUN mkdir -p /opt/tomcat \
-    && groupadd tomcat \
-    && useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat \
-    && cd /opt \
-    && tar xzvf apache-tomcat-8.5.6.tar.gz -C /opt/tomcat --strip-components=1 \
-    && rm -rf apache-tomcat-8.5.6.tar.gz \
-    && cd /opt/tomcat \
-    && chgrp -R tomcat /opt/tomcat \
-    && chmod -R g+r conf \
-    && chmod g+x conf \
-    && chown -R tomcat webapps/ work/ temp/ logs/
 
 COPY ./bootstrap.sh /app/bootstrap.sh
 COPY ./mysql /app/mysql
