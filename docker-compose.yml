@@ -6,11 +6,8 @@ services:
       hostname: qiushao-redis-web-admin
       ports:
         - $EXTERNAL_SVC_PORT:$SERVER_PORT
-        - $EXTERNAL_MYSQL_PORT:3306
         - $EXTERNAL_TEST_REDIS_PORT:6379
       volumes:
         - $RWA_DATA_DIR:/data
-        - $MYSQL_DIR/var_lib_mysql:/var/lib/mysql
-        - $MYSQL_DIR/var_run_mysqld:/var/run/mysqld
         - $TEST_REDIS_DIR/var_lib_redis:/var/lib/redis
       env_file: .env
