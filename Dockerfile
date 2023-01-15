@@ -26,6 +26,7 @@ RUN mkdir -p /var/run/mysqld \
     
 COPY ./redis-admin /app/redis-admin
 COPY ./others/maven-settings.xml /usr/share/maven/conf/settings.xml
+COPY ./others/tomcat-context.xml /opt/tomcat/conf/context.xml
 COPY ./others/apache-tomcat-8.5.6.tar.gz /opt/apache-tomcat-8.5.6.tar.gz
 RUN cd /app/redis-admin \
     && mvn clean package
