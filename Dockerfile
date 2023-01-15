@@ -44,7 +44,7 @@ COPY ./others/tomcat.service /etc/systemd/system/tomcat.service
 COPY ./bootstrap.sh /app/bootstrap.sh
 COPY ./mysql /app/mysql
 
-RUN  systemctl daemon-reload && systemctl enable tomcat.service
+RUN  systemctl enable tomcat.service
 
 RUN chmod 777 /app/bootstrap.sh \
     && chmod 777 /app/mysql/*.sh \
