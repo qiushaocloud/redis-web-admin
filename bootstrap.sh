@@ -2,10 +2,10 @@
 
 echo "start service"
 
-echo "start init application dev yml"
+echo "start init application yml"
 cd /app/redis-admin/src/main/resources
-./init_application_dev_yml.sh
-echo "finsh init application dev yml"
+./init_application_yml.sh
+echo "finsh init application yml"
 
 echo "start redis service"
 if [ ! -f $TEST_REDIS_PASSWORD ]; then
@@ -16,17 +16,12 @@ fi
 /usr/bin/redis-server /etc/redis/redis.conf &
 echo "finsh redis service"
 
-echo "start mysql service"
-cd /app/mysql
-./init_mysql.sh
-echo "finsh mysql service"
-
 sleep 5
 
 echo "satrt redis-admin"
 cd /app/redis-admin && mvn clean package
 cd target
-java -jar redis-admin-1.0.0-SNAPSHOT.war
+java -jar redis-admin.jar --server.port=$SERVER_PORT
 sleep 10
 echo "finsh redis-admin"
 

@@ -6,3 +6,4 @@ application-dev.yml
 application-dev.yml.swp
 change_root_pwd.sql
 change_root_pwd.sql.swp
+*.log
