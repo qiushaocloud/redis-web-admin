@@ -1,9 +1,9 @@
 #!/bin/bash
 echo "run init_mysql.sh"
 
-echo "check /var/lib/mysql/mysql.ibd"
-if [ ! -f "/var/lib/mysql/mysql.ibd" ]; then
-  echo "not exist /var/lib/mysql/mysql.ibd, need mv /var/lib/mysql.bak to /var/lib/mysql/"
+echo "check /var/lib/mysql/auto.cnf"
+if [ ! -f "/var/lib/mysql/auto.cnf" ]; then
+  echo "not exist /var/lib/mysql/auto.cnf, need mv /var/lib/mysql.bak to /var/lib/mysql/"
   mkdir -p /var/lib/mysql
   mv /var/lib/mysql.bak/* /var/lib/mysql/
 fi
