@@ -10,5 +10,4 @@ EXTERNAL_TEST_REDIS_PORT = 9896 #对外 test redis 端口
 
 ### volumes dir
 RWA_DATA_DIR = /srv/docker-volumes/redis-web-admin/data #数据存储目录映射
-MYSQL_DIR = /srv/docker-volumes/redis-web-admin/mysql #mysql 存储目录映射
 TEST_REDIS_DIR = /srv/docker-volumes/redis-web-admin/test-redis #test-redis 存储目录映射
